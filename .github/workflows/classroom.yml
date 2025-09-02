@@ -13,18 +13,58 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Q1 test test
-      id: q1-test-test
+    - name: T1
+      id: t1
       uses: classroom-resources/autograding-command-grader@v1
       with:
-        test-name: Q1 test test
-        setup-command: ''
-        command: pytest /HW1/hw1_tests.py::test_constantsAndVariables
+        test-name: T1
+        setup-command: sudo -H pip3 install pytest
+        command: pytest hw1_test.py::test_constantsAndVariables
+        timeout: 10
+        max-score: 5
+    - name: T2
+      id: t2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: T2
+        setup-command: sudo -H pip3 install pytest
+        command: pytest hw1_test.py::test_NumTimesQuoteIn23
+        timeout: 10
+        max-score: 5
+    - name: T3
+      id: t3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: T3
+        setup-command: sudo -H pip3 install pytest
+        command: pytest hw1_test.py::test_StartAndEndIndeciesOfSubstring
         timeout: 10
         max-score: 2
+    - name: T4
+      id: t4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: T4
+        setup-command: sudo -H pip3 install pytest
+        command: pytest hw1_test.py::test_StartAndEndIndeciesOfSubstring2
+        timeout: 10
+        max-score: 2
+    - name: T5
+      id: t5
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: T5
+        setup-command: sudo -H pip3 install pytest
+        command: pytest hw1_test.py::test_IntegerSeqToString
+        timeout: 10
+        max-score: 6
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
-        Q1-TEST-TEST_RESULTS: "${{steps.q1-test-test.outputs.result}}"
+        T1_RESULTS: "${{steps.t1.outputs.result}}"
+        T2_RESULTS: "${{steps.t2.outputs.result}}"
+        T3_RESULTS: "${{steps.t3.outputs.result}}"
+        T4_RESULTS: "${{steps.t4.outputs.result}}"
+        T5_RESULTS: "${{steps.t5.outputs.result}}"
       with:
-        runners: q1-test-test
+        runners: t1,t2,t3,t4,t5
