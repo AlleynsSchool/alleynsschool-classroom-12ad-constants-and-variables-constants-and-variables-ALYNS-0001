@@ -1,0 +1,30 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Q1 test test
+      id: q1-test-test
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Q1 test test
+        setup-command: ''
+        command: pytest /HW1/hw1_tests.py::test_constantsAndVariables
+        timeout: 10
+        max-score: 2
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        Q1-TEST-TEST_RESULTS: "${{steps.q1-test-test.outputs.result}}"
+      with:
+        runners: q1-test-test
